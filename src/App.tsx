@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Dashboard } from './components/Dashboard';
+import { useState } from 'react';
+import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';import { Dashboard } from './components/Dashboard';
 import { EventManagement } from './pages/EventManagement';
 import { StaffPermits } from './pages/StaffPermits';
 import { PCNManagement } from './pages/PCNManagement';
