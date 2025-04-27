@@ -4,6 +4,7 @@ import { AddVehicleForm } from './AddVehicleForm';
 import { ActivitySidebar } from './ActivitySidebar';
 import { StatsOverview } from './StatsOverview';
 import { CarIcon, BellIcon } from 'lucide-react';
+
 export const Dashboard = ({
   events
 }) => {
@@ -11,36 +12,33 @@ export const Dashboard = ({
   const [vehicles, setVehicles] = useState([{
     id: 1,
     licensePlate: 'ABC123',
-    make: 'Toyota',
-    model: 'Camry',
+    personName: 'John Smith',
     hasPermit: true,
     entryTime: '2023-06-10T08:30:00',
     eventId: 1
   }, {
     id: 2,
     licensePlate: 'DEF456',
-    make: 'Honda',
-    model: 'Civic',
+    personName: 'Sarah Johnson',
     hasPermit: true,
     entryTime: '2023-06-10T09:15:00',
     eventId: 2
   }, {
     id: 3,
     licensePlate: 'GHI789',
-    make: 'Ford',
-    model: 'Focus',
+    personName: 'Michael Brown',
     hasPermit: false,
     entryTime: '2023-06-10T10:05:00',
     eventId: null
   }, {
     id: 4,
     licensePlate: 'JKL012',
-    make: 'BMW',
-    model: 'X5',
+    personName: 'Emily Davis',
     hasPermit: true,
     entryTime: '2023-06-10T11:20:00',
     eventId: 1
   }]);
+
   const [recentActivity, setRecentActivity] = useState([{
     id: 1,
     licensePlate: 'ABC123',
@@ -67,6 +65,7 @@ export const Dashboard = ({
     action: 'entry',
     timestamp: '2023-06-10T11:20:00'
   }]);
+
   const addVehicle = vehicle => {
     const newVehicle = {
       id: vehicles.length + 1,
@@ -83,15 +82,19 @@ export const Dashboard = ({
     };
     setRecentActivity([newActivity, ...recentActivity]);
   };
+
   const updateVehiclePermit = (id, hasPermit) => {
     setVehicles(vehicles.map(vehicle => vehicle.id === id ? {
       ...vehicle,
       hasPermit
     } : vehicle));
   };
+
   const vehiclesWithPermit = vehicles.filter(v => v.hasPermit).length;
   const vehiclesWithoutPermit = vehicles.filter(v => !v.hasPermit).length;
-  return <div className="container mx-auto px-4 py-8">
+
+  return (
+    <div className="container mx-auto px-4 py-8">
       <header className="mb-8">
         <div className="flex items-center justify-between">
           <div>
@@ -102,13 +105,22 @@ export const Dashboard = ({
               Manage vehicle permits and car park access
             </p>
           </div>
-          <button onClick={() => setIsActivitySidebarOpen(true)} className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+          <button
+            onClick={() => setIsActivitySidebarOpen(true)}
+            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+          >
             <BellIcon size={20} />
             <span className="font-medium">Recent Activity</span>
           </button>
         </div>
       </header>
-      <StatsOverview totalVehicles={vehicles.length} withPermit={vehiclesWithPermit} withoutPermit={vehiclesWithoutPermit} />
+
+      <StatsOverview
+        totalVehicles={vehicles.length}
+        withPermit={vehiclesWithPermit}
+        withoutPermit={vehiclesWithoutPermit}
+      />
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
         <div className="lg:col-span-2">
           <div className="bg-white p-6 rounded-lg shadow-md">
@@ -116,7 +128,11 @@ export const Dashboard = ({
               <CarIcon className="mr-2 text-blue-600" size={20} />
               Who's in the car park
             </h2>
-            <VehicleList vehicles={vehicles} updateVehiclePermit={updateVehiclePermit} events={events} />
+            <VehicleList
+              vehicles={vehicles}
+              updateVehiclePermit={updateVehiclePermit}
+              events={events}
+            />
           </div>
         </div>
         <div>
@@ -129,6 +145,12 @@ export const Dashboard = ({
           </div>
         </div>
       </div>
-      <ActivitySidebar isOpen={isActivitySidebarOpen} onClose={() => setIsActivitySidebarOpen(false)} activities={recentActivity} />
-    </div>;
+
+      <ActivitySidebar
+        isOpen={isActivitySidebarOpen}
+        onClose={() => setIsActivitySidebarOpen(false)}
+        activities={recentActivity}
+      />
+    </div>
+  );
 };
