@@ -16,9 +16,9 @@ export const VehicleList = ({
 
   const getEventBadgeColor = eventType => {
     const colors = {
-      wedding: 'bg-pink-100 text-pink-800',
-      conference: 'bg-purple-100 text-purple-800',
-      hotel: 'bg-blue-100 text-blue-800',
+      wedding: 'text-pink-800',
+      conference: 'text-purple-800',
+      hotel: ' text-blue-800',
       default: 'bg-gray-100 text-gray-800'
     };
     return colors[eventType] || colors.default;

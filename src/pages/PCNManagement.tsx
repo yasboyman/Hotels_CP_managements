@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { AlertCircleIcon, CheckCircleIcon, XCircleIcon, ClockIcon } from 'lucide-react';
+import { AlertCircleIcon, ClockIcon } from 'lucide-react';
+import { ConfirmationModal } from '../components/ConfirmationModal';
+
 export const PCNManagement = () => {
   const [pendingPCNs, setPendingPCNs] = useState([{
     id: 1,
@@ -20,19 +22,26 @@ export const PCNManagement = () => {
     status: 'pending',
     timeRemaining: '1h 45m'
   }]);
-  const handleCancelPCN = id => {
+
+  const [actionModal, setActionModal] = useState<{
+    isOpen: boolean;
+    type: 'cancel' | null;
+    id: number | null;
+  }>({
+    isOpen: false,
+    type: null,
+    id: null
+  });
+
+  const handleCancelPCN = (id: number) => {
     setPendingPCNs(pendingPCNs.map(pcn => pcn.id === id ? {
       ...pcn,
       status: 'cancelled'
     } : pcn));
   };
-  const handleIssuePCN = id => {
-    setPendingPCNs(pendingPCNs.map(pcn => pcn.id === id ? {
-      ...pcn,
-      status: 'issued'
-    } : pcn));
-  };
-  return <div className="container mx-auto px-4 py-8">
+
+  return (
+    <div className="container mx-auto px-4 py-8">
       <header className="mb-8">
         <div className="flex items-center justify-between">
           <div>
@@ -74,7 +83,8 @@ export const PCNManagement = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {pendingPCNs.map(pcn => <tr key={pcn.id} className={pcn.status !== 'pending' ? 'bg-gray-50' : ''}>
+              {pendingPCNs.map(pcn => (
+                <tr key={pcn.id} className={pcn.status !== 'pending' ? 'bg-gray-50' : ''}>
                   <td className="px-6 py-4">
                     <div className="text-sm font-medium text-gray-900">
                       {pcn.licensePlate}
@@ -103,19 +113,34 @@ export const PCNManagement = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-right">
-                    {pcn.status === 'pending' && <div className="flex justify-end space-x-2">
-                        <button onClick={() => handleCancelPCN(pcn.id)} className="text-green-600 hover:text-green-900" title="Cancel PCN">
-                          <CheckCircleIcon size={20} />
-                        </button>
-                        <button onClick={() => handleIssuePCN(pcn.id)} className="text-red-600 hover:text-red-900" title="Issue PCN">
-                          <XCircleIcon size={20} />
-                        </button>
-                      </div>}
+                    {pcn.status === 'pending' && (
+                      <button
+                        onClick={() => setActionModal({ isOpen: true, type: 'cancel', id: pcn.id })}
+                        className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                      >
+                        Cancel PCN
+                      </button>
+                    )}
                   </td>
-                </tr>)}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </div>
-    </div>;
+
+      <ConfirmationModal
+        isOpen={actionModal.isOpen}
+        onClose={() => setActionModal({ isOpen: false, type: null, id: null })}
+        onConfirm={() => {
+          if (actionModal.id) {
+            handleCancelPCN(actionModal.id);
+          }
+        }}
+        title="Cancel PCN"
+        message="Are you sure you want to cancel this PCN? This action cannot be undone."
+        confirmText="Cancel PCN"
+      />
+    </div>
+  );
 };

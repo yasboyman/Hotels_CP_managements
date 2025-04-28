@@ -260,7 +260,6 @@ export const EventManagement: React.FC<EventManagementProps> = ({
                   value={selectedEvent.qrCodeUrl}
                   size={200}
                   level="H"
-                  includeMargin={true}
                 />
               </div>
               <p className="text-sm text-gray-600">
