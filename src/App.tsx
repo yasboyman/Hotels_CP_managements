@@ -29,24 +29,24 @@ export function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-indigo-50">
+      <div className="min-h-screen" style={{ backgroundColor: '#edf2f7' }}>
         <nav className="bg-white shadow-sm">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center space-x-8">
-                <Link to="/" className="flex items-center text-gray-800 hover:text-indigo-600">
+                <Link to="/" className="flex items-center text-gray-800 hover:text-gray-600">
                   <LayoutDashboardIcon size={20} className="mr-2" />
                   Dashboard
                 </Link>
-                <Link to="/events" className="flex items-center text-gray-800 hover:text-indigo-600">
+                <Link to="/events" className="flex items-center text-gray-800 hover:text-gray-600">
                   <CalendarIcon size={20} className="mr-2" />
                   Events
                 </Link>
-                <Link to="/staff-permits" className="flex items-center text-gray-800 hover:text-indigo-600">
+                <Link to="/staff-permits" className="flex items-center text-gray-800 hover:text-gray-600">
                   <UserIcon size={20} className="mr-2" />
                   Staff Permits
                 </Link>
-                <Link to="/pcn" className="flex items-center text-gray-800 hover:text-indigo-600">
+                <Link to="/pcn" className="flex items-center text-gray-800 hover:text-gray-600">
                   <AlertTriangleIcon size={20} className="mr-2" />
                   PCN Management
                 </Link>
